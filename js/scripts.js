@@ -26,25 +26,15 @@ function initMap() {
   			activeArray.push($(this).val() == "" ? "no" : "yes");
   		});
   		return activeArray[0] == "yes" && activeArray[1] == "yes" ? true : false;
-  	}
-  	
-  	
+  	}  	
   	
   });
 
 	$(document).on("click", "#go.active", function(){
-		$("#floating-panel").hide();		
-		$("#go").removeClass("active").addClass("inactive");
-		$("#try-again").show();
-
 		getCoordsFromAddress(getAddressValue(), api_key);
 	});
 
-	$("#try-again").click(function(){
-		$("#floating-panel input").val("");
-		$("#floating-panel").show();
-		$("#try-again").hide();
-	});
+	$("#try-again").click(showPanel);
 
 	function getCoordsFromAddress(address, api_key){
 	
@@ -88,6 +78,18 @@ function calcPoint(pointA, angle, distance){
 	return pointA.destinationPoint(angle, distance);
 }
 
+function showPanel(){
+  $("#floating-panel input").val("");
+  $("#floating-panel").show();
+  $("#try-again").hide();
+}
+
+function showMap(){
+  $("#floating-panel").hide();    
+  $("#go").removeClass("active").addClass("inactive");
+  $("#try-again").show();
+}
+
 function getAddressValue(){
 	return $("#address").val();
 }
@@ -103,10 +105,9 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, 
   }, function(response, status) {
     if (status === "OK") {
       directionsDisplay.setDirections(response);
+      showMap();
     } else {
-     	
     	console.log("Trying with 2...");
-
      	// do it with 2 waypoints...
      	calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, calcWayPoints(pointA, distance, 2))
 
