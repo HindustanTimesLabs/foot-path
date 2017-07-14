@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div id="floating-panel">
+    	<input id="address" placeholder="Where you do you want to start your run?"></input>
+    	<input id="distance" placeholder="How many kilometers do you want to run?"></input>
+    	<div id="go" class="button inactive">Find your run!</div>
+    </div>
+    <div id="try-again" style="display: none">
+    	Find another run!
+    </div>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6N7-9Y1x9Zpt6KECf1AFpAbRSGfX8mK0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/destinationPoint.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
