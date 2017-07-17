@@ -65,7 +65,7 @@ function calcWayPoints(origin, distance, waypoints){
 
 	for (var i = 0; i < waypoints; i++){
 		var obj = {};
-		obj.location = calcPoint(i == 0 ? origin : wp[i - 1].location, 180 / waypoints * (i + 1), (distance / 2) / (waypoints + 1))
+		obj.location = calcPoint(i == 0 ? origin : wp[i - 1].location, 180 / waypoints * (i + 1), (distance) / (waypoints + 1))
 		obj.stopover = true;
 		wp.push(obj);
 	}
@@ -92,13 +92,13 @@ function calcPoint(origin, heading, distance){
 function showPanel(){
   $("#floating-panel input").val("");
   $("#floating-panel").show();
-  $("#try-again").hide();
+  $(".map-show").hide();
 }
 
 function showMap(){
   $("#floating-panel").hide();    
   $("#go").removeClass("active").addClass("inactive");
-  $("#try-again").show();
+  $(".map-show").show();
 }
 
 function getAddressValue(){
@@ -120,7 +120,13 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
       var path = result.routes.length > 0 ? result.routes[0].overview_path : [];
       console.log('Target Distance:', distance * 1000, 'Actual Distance:', spherical.computeLength(path));
 
+      $(".target-distance span").html(jz.str.numberLakhs(distance * 1000) + " meters");
+      $(".actual-distance span").html(jz.str.numberLakhs((spherical.computeLength(path)).toFixed(2)) + " meters");
+
       directionsDisplay.setDirections(result);
+
+
+
       // Draw a polyline of our path
       // new google.maps.Polyline({
       //     strokeColor: 'blue',

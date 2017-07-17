@@ -4,21 +4,31 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Directions service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/fonts/FontAwesome.otf" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <div id="floating-panel">
     	<input id="address" placeholder="Where you do you want to start your run?"></input>
+        <div class="hint">Enter a neighbourhood like Colaba, Bombay, or an address like 18-20 Kasturba Gandhi Marg, Delhi</div>
     	<input id="distance" type="number" min="1" placeholder="How many kilometers do you want to run?"></input>
     	<div id="go" class="button inactive">Find your run!</div>
     </div>
-    <div id="try-again" style="display: none">
+    <div id="try-again" class="map-show" style="display: none">
     	Find another run!
+    </div>
+    <div id="summary" class="map-show" style="display: none">
+        <div class="target-distance">Target distance: <span></span></div>
+        <div class="actual-distance">Actual distance: <span></span></div>
+        
+
     </div>
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6N7-9Y1x9Zpt6KECf1AFpAbRSGfX8mK0&amp;libraries=geometry"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="js/destinationPoint.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="https://unpkg.com/jeezy/lib/jeezy.min.js"></script>
+    <script src="js/fast.js"></script>
+    <script src="js/exactdistance.js"></script>
   </body>
 </html>
