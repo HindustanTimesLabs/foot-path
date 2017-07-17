@@ -12,14 +12,16 @@ html, body {
 }
 
 #try-again {
-	position: absolute;
+  position: absolute;
   bottom: 10%;
   left: 45%;
   width: 10%;
-  height: 36px;
+  height: 32px;
+  color: #fff;
+  background: #1abc9c;
+  border: 1px solid #14a78a;
   z-index: 5;
   text-align: center;
-  background: #fff;
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -36,7 +38,7 @@ html, body {
   z-index: 5;
   background: rgba(255, 255, 255, 0.9);
   text-align: center;
-  padding-top: 10%;
+  padding-top: 15%;
 }
 #floating-panel input {
 	font-family: "Open Sans", sans-serif;

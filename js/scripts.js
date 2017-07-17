@@ -1,6 +1,8 @@
-var api_key = "AIzaSyB6N7-9Y1x9Zpt6KECf1AFpAbRSGfX8mK0"
+var api_key = "AIzaSyB6N7-9Y1x9Zpt6KECf1AFpAbRSGfX8mK0",
+  spherical = google.maps.geometry.spherical;
 
 function initMap() {
+
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
 
@@ -45,11 +47,11 @@ function initMap() {
 				var coords = data.results[0].geometry.location;
 				
 				// get new points
-				var pointA = new google.maps.LatLng(coords.lat, coords.lng);
+				var origin = new google.maps.LatLng(coords.lat, coords.lng);
 				var distance = $("#distance").val();
-				var waypts = calcWayPoints(pointA, distance, 3)
+				var waypts = calcWayPoints(origin, distance, 3)
 				
-				calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, waypts, distance)
+				calculateAndDisplayRoute(directionsService, directionsDisplay, origin, waypts, distance, map)
 
 			}
 		});
@@ -58,12 +60,12 @@ function initMap() {
 
 }
 
-function calcWayPoints(starting_point, distance, waypoints){
+function calcWayPoints(origin, distance, waypoints){
 	var wp = [];
 
 	for (var i = 0; i < waypoints; i++){
 		var obj = {};
-		obj.location = calcPoint(i == 0 ? starting_point : wp[i - 1].location, 180 / waypoints * (i + 1), (distance / 2) / (waypoints + 1))
+		obj.location = calcPoint(i == 0 ? origin : wp[i - 1].location, 180 / waypoints * (i + 1), (distance / 2) / (waypoints + 1))
 		obj.stopover = true;
 		wp.push(obj);
 	}
@@ -71,11 +73,20 @@ function calcWayPoints(starting_point, distance, waypoints){
 	return wp
 }
 
-function calcPoint(pointA, angle, distance){
+function calcPoint(origin, heading, distance){
 
 	//TODO Calculate actual walking distance...
+  // find a point {distance} north of our origin
 
-	return pointA.destinationPoint(angle, distance);
+  var destination = spherical.computeOffset(
+    origin,
+    distance * 1000,
+    heading
+  );
+
+  return destination;
+
+	// return origin.destinationPoint(angle, distance);
 }
 
 function showPanel(){
@@ -94,22 +105,39 @@ function getAddressValue(){
 	return $("#address").val();
 }
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, waypts, distance) {
+var wp = 2;
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, waypts, distance, map) {
 
   directionsService.route({
-    origin: pointA,
-    destination: pointA,
+    origin: origin,
+    destination: origin,
     waypoints: waypts,
     optimizeWaypoints: true,
     travelMode: "WALKING"
-  }, function(response, status) {
-    if (status === "OK") {
-      directionsDisplay.setDirections(response);
+  }, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK || status == google.maps.DirectionsStatus.ZERO_RESULTS) {
+      var path = result.routes.length > 0 ? result.routes[0].overview_path : [];
+      console.log('Target Distance:', distance * 1000, 'Actual Distance:', spherical.computeLength(path));
+
+      directionsDisplay.setDirections(result);
+      // Draw a polyline of our path
+      // new google.maps.Polyline({
+      //     strokeColor: 'blue',
+      //     strokeOpacity: 1,
+      //     strokeWeight: 5,
+      //     path: path,
+      //     map: map
+      // });
+
+      // // Center the map on our starting point
+      // map.panTo(origin);
+
       showMap();
     } else {
-    	console.log("Trying with 2...");
+      console.log(wp);
      	// do it with 2 waypoints...
-     	calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, calcWayPoints(pointA, distance, 2))
+     	calculateAndDisplayRoute(directionsService, directionsDisplay, origin, calcWayPoints(origin, distance, wp--));
 
       // window.alert("Directions request failed due to " + status);
     }
