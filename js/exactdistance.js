@@ -1,10 +1,12 @@
-var gray_style=[{elementType:"geometry",stylers:[{color:"#f5f5f5"}]},{elementType:"labels.icon",stylers:[{visibility:"off"}]},{elementType:"labels.text.fill",stylers:[{color:"#616161"}]},{elementType:"labels.text.stroke",stylers:[{color:"#f5f5f5"}]},{featureType:"administrative.land_parcel",elementType:"labels.text.fill",stylers:[{color:"#bdbdbd"}]},{featureType:"poi",elementType:"geometry",stylers:[{color:"#eeeeee"}]},{featureType:"poi",elementType:"labels.text.fill",stylers:[{color:"#757575"}]},{featureType:"poi.park",elementType:"geometry",stylers:[{color:"#e5e5e5"}]},{featureType:"poi.park",elementType:"labels.text.fill",stylers:[{color:"#9e9e9e"}]},{featureType:"road",elementType:"geometry",stylers:[{color:"#ffffff"}]},{featureType:"road.arterial",elementType:"labels.text.fill",stylers:[{color:"#757575"}]},{featureType:"road.highway",elementType:"geometry",stylers:[{color:"#dadada"}]},{featureType:"road.highway",elementType:"labels.text.fill",stylers:[{color:"#616161"}]},{featureType:"road.local",elementType:"labels.text.fill",stylers:[{color:"#9e9e9e"}]},{featureType:"transit.line",elementType:"geometry",stylers:[{color:"#e5e5e5"}]},{featureType:"transit.station",elementType:"geometry",stylers:[{color:"#eeeeee"}]},{featureType:"water",elementType:"geometry",stylers:[{color:"#d2eef7"}]},{featureType:"water",elementType:"labels.text.fill",stylers:[{color:"#7997a1"}]},{featureType:"water",elementType:"labels.text.stroke",stylers:[{color:"#45565c"}]}];
-
 var api_key = "AIzaSyB6N7-9Y1x9Zpt6KECf1AFpAbRSGfX8mK0",
   spherical = google.maps.geometry.spherical,
-  markers = [];
+  markers = [],
+  lines = [],
+  windows = [];
 
 function initMap() {
+
+  $("#address").focus();
 
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -38,7 +40,7 @@ function initMap() {
 
 	$(document).on("click", "#go.active", function(){
 
-    $("#go").html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Loading your run… <span class='sr-only'>Loading...</span>");
+    $("#go").removeClass("active").addClass("inactive").html("<i class='fa fa-spinner fa-pulse fa-fw'></i> Loading your run… <span class='sr-only'>Loading...</span>");
 
 		getCoordsFromAddress(getAddressValue(), api_key);
 	});
@@ -57,7 +59,6 @@ function initMap() {
 				var origin = new google.maps.LatLng(coords.lat, coords.lng);
 				var distance = $("#distance").val() / 3;
         var destination = calcPoint(origin, 0, distance);
-				// var waypts = calcWayPoints(origin, distance, 3)
 				
 				calculateAndDisplayRoute(directionsService, directionsDisplay, origin, distance, destination, map)
 
@@ -68,37 +69,18 @@ function initMap() {
 
 }
 
-function calcWayPoints(origin, distance, waypoints){
-	var wp = [];
-
-	for (var i = 0; i < waypoints; i++){
-		var obj = {};
-		obj.location = calcPoint(i == 0 ? origin : wp[i - 1].location, 180 / waypoints * (i + 1), (distance / 2) / (waypoints + 1))
-		obj.stopover = true;
-		wp.push(obj);
-	}
-
-	return wp
-}
 
 function calcPoint(origin, heading, distance){
 
-	//TODO Calculate actual walking distance...
-  // find a point {distance} north of our origin
+  return spherical.computeOffset(origin, distance * 1000, heading);
 
-  return spherical.computeOffset(
-    origin,
-    distance * 1000,
-    heading
-  );
-
-	// return origin.destinationPoint(angle, distance);
 }
 
 function showPanel(){
   $("#go").html("Find your run!");
   $("#floating-panel input").val("");
   $("#floating-panel").show();
+  $("#address").focus();
   $(".map-show").hide();
 }
 
@@ -121,7 +103,8 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
   directionsService.route({
     origin: origin,
     destination: destination,
-    travelMode: "WALKING"
+    travelMode: "WALKING",
+    region: "in"
   }, function(result, status) {
     if (status == google.maps.DirectionsStatus.OK || status == google.maps.DirectionsStatus.ZERO_RESULTS) {
       
@@ -163,15 +146,30 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
 
             if (status == google.maps.DirectionsStatus.OK || status == google.maps.DirectionsStatus.ZERO_RESULTS) {
 
+              deleteMarkers();
+
               var pathD = result.routes.length > 0 ? result.routes[0].overview_path : [];
               console.log('Target Distance:', distance * 3000, 'Actual Distance:', spherical.computeLength(pathD));
 
-              $(".target-distance span").html(jz.str.numberLakhs(distance * 3000) + " meters");
-              $(".actual-distance span").html(jz.str.numberLakhs((spherical.computeLength(pathD)).toFixed(2)) + " meters");
+              $("#summary").html("You asked for a <b>" + jz.str.numberLakhs((distance * 3).toFixed(2)) + "</b> km run, and we found you a <b>" + jz.str.numberLakhs((spherical.computeLength(pathD) / 1000).toFixed(2)) + "</b> km run.");
+              // $(".actual-distance span").html();
 
-              directionsDisplay.setDirections(result);
+              map.fitBounds(result.routes[0].bounds)   
+
+              var legs = result.routes[0].legs;
+
+              addInfoWindow(origin, "<b>Start</b> and <b>finish</b> at:<div style='margin-top:5px; font-size:.9em'>" + legs[0].start_address + "</div>");
+              waypoints.forEach(function(d, i){
+                var first_stop = "Your <b>first stop</b> is:<div style='margin-top:5px; font-size:.9em'>" + legs[1].start_address + "</div>",
+                  second_stop = "Your <b>second stop</b> is:<div style='margin-top:5px; font-size:.9em'>" + legs[2].start_address + "</div>";
+
+                addInfoWindow(d.location, i == 0 ? first_stop : second_stop);
+              });
+
+              addLine("#1abc9c", pathD, map, .6, 10);
+
               showMap();
-              
+
 
             }
 
@@ -192,12 +190,30 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
     }
   });
 
+  function addInfoWindow(location, html){
+    var win = new google.maps.InfoWindow({
+      content: html,
+      maxWidth: 200
+    });
+    var marker = addMarker(location)
+    win.open(map, marker);
+    marker.addListener("click", function() {
+      win.open(map, marker);
+    });
+    markers.push(marker);
+    windows.push(win);
+  }
+
   // Adds a marker to the map and push to the array.
-  function addMarker(location) {
+  function addMarker(location, label) {
     var marker = new google.maps.Marker({
       position: location,
-      map: map
+      map: map,
+      animation: google.maps.Animation.DROP,
+      label: label,
+      icon: "img/marker-gray-01.png"
     });
+    return marker; // in case you need it
     markers.push(marker);
   }
 
@@ -205,6 +221,9 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
   function setMapOnAll(map) {
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(map);
+    }
+    for (var i = 0; i < lines.length; i++) {
+      lines[i].setMap(map);
     }
   }
 
@@ -222,17 +241,20 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
   function deleteMarkers() {
     clearMarkers();
     markers = [];
+    lines = [];
+    windows = [];
   }
 
-  function addLine(color, path, map){
+  function addLine(color, path, map, opacity, weight){
     // Draw a polyline of our path
-    return new google.maps.Polyline({
-        strokeColor: color,
-        strokeOpacity: 1,
-        strokeWeight: 5,
-        path: path,
-        map: map
+    var line = new google.maps.Polyline({
+      strokeColor: color,
+      strokeOpacity: opacity,
+      strokeWeight: weight,
+      path: path,
+      map: map
     });
+    lines.push(line);
   }
 
   // Not the bird distance, the walk distance
@@ -279,9 +301,14 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
       totalLength += segmentLength;
     }
   }
-  
-
-
 }
+
+// https://developers.google.com/maps/documentation/javascript/directions#DirectionsRegionBiasing
+// A DirectionsRenderer not only handles display of the polyline and any associated markers,
+// but also can handle the textual display of directions as a series of steps.
+// To do so, simply call setPanel() on your DirectionsRenderer,
+// passing it the <div> in which to display this information.
+// Doing so also ensures that you display the appropriate copyright information,
+// and any warnings which may be associated with the result.
 
 initMap();

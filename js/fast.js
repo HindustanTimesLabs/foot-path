@@ -40,7 +40,7 @@ function initMap() {
 
 	function getCoordsFromAddress(address, api_key){
 	
-		var request = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + api_key;
+		var request = "https://maps.googleapis.co.in/maps/api/geocode/json?address=" + address + "&key=" + api_key;
 		$.getJSON(request, function(data, status){
 			if (status == "success"){
 
