@@ -11,8 +11,6 @@ var api_key = "AIzaSyB6N7-9Y1x9Zpt6KECf1AFpAbRSGfX8mK0",
 
 function initMap() {
 
-  if (!isMobile) $("#address").focus();
-
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
 
@@ -94,7 +92,6 @@ function showPanel(){
   $("#go").html("Find your run!");
   $("#floating-panel input").val("");
   $("#floating-panel").show();
-  if (!isMobile) $("#address").focus();
   $(".map-show").hide();
 }
 

@@ -170,6 +170,7 @@ footer a {
 
   /*related*/
   .related-wrapper {
+    margin-top: 0px;
     padding: 10px;
   }
 }

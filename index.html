@@ -5,7 +5,8 @@
 		<!-- meta -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+
 		<title>Find the perfect run or walk, anywhere in the world | Hindustan Times</title>
     <meta name="keywords" content="Fitness, running, jogging, run finder, run map, jog finder, jog map, Fitter Mumbai, find a run, run near me, runs in my neighborhood" />
     <meta name="description" content="Where should you run? Here's an app to help you find out."/>
@@ -24,8 +25,8 @@
 
 		<!-- custom css -->
 		<!-- Rembember to Minify! -->
-		<link rel="stylesheet" href="css/template.css" />
-		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="stylesheet" href="css/template.min.css" />
+		<link rel="stylesheet" href="css/styles.min.css" />
 
     <!-- social tags -->
     <meta property="og:url" content="http://www.hindustantimes.com/interactives/fitter-mumbai-run-finder/" />
@@ -62,17 +63,17 @@
 		</nav>
 		<div class="container-fluid">
 			<div class="titles-wrapper">
-        <div id="fitter-logo"><a href="http://www.hindustantimes.com/fitter-mumbai/" target="_blank"><img src="img/fitter-mumbai.png" /></a></div>
+        <div id="fitter-logo"><img src="img/runner-01.png" /></div>
 	      <h1 class="headline">Find the perfect run or walk, anywhere in the world</h1>
 	      <h2 class="byline">By Harry Stevens | July 19, 2017</h2>
 	      
 	    </div>
       <div id="app">
         <div id="intro">
-          Running is one of the best things you can do for your health. One <a href="http://www.onlinejacc.org/content/64/5/472">recent scientific study</a> found that going for regular jobs increases your life expectancy be three years. But where should you run? Enter an address and a distance below to find out.
+          Running is one of the best things you can do for your health. One <a href="http://www.onlinejacc.org/content/64/5/472">recent scientific study</a> found that going for regular jogs increases your life expectancy by three years. But where should you run? Enter an address and a distance below to find out.
         </div>
         <div id="search">
-          <input id="address" placeholder="Where you do you want to start your run?"></input>
+          <input id="address" placeholder="Where do you want to start your run?"></input>
           <input id="distance" type="number" min="1" placeholder="How many kilometers do you want to run?"></input>
           <div id="go" class="button inactive">Find your run!</div>
         </div>
@@ -86,7 +87,10 @@
           
 
         </div>
-        <div id="disclaimer">This app uses walking directions provided by the Google Maps API. The API provides the following warning: &ldquo;Walking directions are in beta. Use caution &mdash; This route may be missing sidewalks or pedestrian paths.&rdquo;</div>
+        <div id="disclaimer">
+        <p>This app uses walking directions provided by the Google Maps API. The API provides the following warning: &ldquo;Walking directions are in beta. Use caution &mdash; This route may be missing sidewalks or pedestrian paths.&rdquo;</p>
+        <p>Icon: <a href="https://thenounproject.com/term/running/688062/">Running by mungang kim from the Noun Project</a>
+        </div>
 
       </div>
 
@@ -187,9 +191,9 @@
     <script src="https://unpkg.com/jeezy/lib/jeezy.min.js"></script>
 
 		<!-- custom js -->
-		<script src="js/template.js"></script>
+		<script src="js/template.min.js"></script>
     <script src="js/mapstyle.js"></script>
-		<script src="js/scripts.js"></script>
+		<script src="js/scripts.min.js"></script>
 
     <!-- analytics -->
 

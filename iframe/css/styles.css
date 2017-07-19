@@ -117,14 +117,11 @@ html, body {
 /* Medium Devices, Desktops */
 @media only screen and (max-width: 992px) {
 
-}
-
-/* Small Devices, Tablets */
-@media only screen and (max-width: 768px) {
-  body, html {
+  html, body {
     height: 100%;
     overflow-y: hidden;
   }
+  
   #floating-panel input, #disclaimer {
     width: 92%;
   }
@@ -136,7 +133,7 @@ html, body {
     font-size: .7em;
   }
   #floating-panel #go, .hint {
-    width: 97%;
+    width: 93%;
   }
   #floating-panel #fitter-logo {
     margin-top: 10px;
@@ -164,6 +161,11 @@ html, body {
     padding-left:5%;
     padding-right:5%;
   }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+  
 }
 
 /* Extra Small Devices, Phones */

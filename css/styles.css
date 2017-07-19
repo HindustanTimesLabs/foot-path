@@ -134,30 +134,37 @@ input:focus {
 /* Small Devices, Tablets */
 @media only screen and (max-width: 768px) {
   body, html {
-    height: 100%;
-    overflow-y: hidden;
+    overflow-x: hidden;
+    width: 100%;
   }
-  #floating-panel input, #disclaimer {
-    width: 92%;
+  input, #disclaimer {
+    width: 99%;
   }
-  #floating-panel input {
-    font-size: .9em;
-    border:1px solid #ccc;
+  input {
+    font-size: .8em;
+    margin-bottom: 3px;
+    text-align: center;
+    /*border:1px solid #ccc;*/
   }
-  .hint {
-    font-size: .7em;
+  #map {
+    height: 60vh;
   }
-  #floating-panel #go, .hint {
-    width: 97%;
-  }
-  #floating-panel #fitter-logo {
+  #go {
+    width: 99%;
     margin-top: 10px;
-    margin-bottom: 50px;
+  }
+  #intro {
+    font-size: 1.1em;
+  }
+  #fitter-logo {
+    margin-top: 30px;
+    margin-bottom: 30px;
     width: 50px;
   }
   #disclaimer {
-    width: 92%;
-    margin-left:4%;
+    width: 98%;
+    max-width: 98%;
+    margin-left:1%;
     bottom: 80px;
     /*position: absolute;*/
   }
@@ -167,14 +174,15 @@ input:focus {
     bottom: 2%;
   }
   #summary {
-    position: absolute;
+    display: none !important;
+/*    position: absolute;
     left: 5%;
     width: 80%;
     max-width: 80%;
     padding-top: 10px;
     padding-bottom:10px;
     padding-left:5%;
-    padding-right:5%;
+    padding-right:5%;*/
   }
 }
 
