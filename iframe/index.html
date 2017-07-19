@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|PT+Serif:400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/fonts/FontAwesome.otf" />
+    <link rel="stylesheet" href="css/styles.min.css" />
+  </head>
+  <body>
+    <div id="floating-panel">
+        <div id="fitter-logo"><a href="http://www.hindustantimes.com/fitter-mumbai/" target="_blank"><img src="img/fitter-mumbai.png" /></a></div>
+    	<input id="address" placeholder="Where you do you want to start your run?"></input>
+        <div class="hint">Enter a neighbourhood like &ldquo;Colaba, Mumbai&rdquo;, or an address like &ldquo;18-20 Kasturba Gandhi Marg, Delhi&rdquo;</div>
+    	<input id="distance" type="number" min="1" placeholder="How many kilometers do you want to run?"></input>
+    	<div id="go" class="button inactive">Find your run!</div>
+        <div id="disclaimer">This app uses walking directions provided by the Google Maps API. The API provides the following warning: &ldquo;Walking directions are in beta. Use caution &mdash; This route may be missing sidewalks or pedestrian paths.&rdquo;</div>
+    </div>
+    <div id="try-again" class="map-show" style="display: none">
+    	Find another run!
+    </div>
+    <div id="summary" class="map-show" style="display: none"></div>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6N7-9Y1x9Zpt6KECf1AFpAbRSGfX8mK0&amp;libraries=geometry"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/jeezy/lib/jeezy.min.js"></script>
+    <script src="js/mapstyle.js"></script>
+    <script src="js/scripts.min.js"></script>
+
+
+    <!-- analytics -->
+
+    <script type="text/javascript">
+      var _comscore=_comscore || [];
+      _comscore.push({
+        c1 : "2",
+        c2 : "6035286"
+      });
+      (function() {
+        var s=document.createElement("script"), el=document.getElementsByTagName("script")[0];
+        s.async=true;
+        s.src=(document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+      })();
+    </script>
+
+    <script type="text/javascript">
+      (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject']=r;
+        i[r]=i[r] ||
+        function() {
+          (i[r].q=i[r].q || []).push(arguments)
+        }, i[r].l=1 * new Date();
+        a=s.createElement(o), m=s.getElementsByTagName(o)[0];
+        a.async=1;
+        a.src=g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-1431719-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+    <script type='text/javascript'>
+    var _sf_async_config=_sf_async_config || {};
+    /** CONFIGURATION START **/
+    _sf_async_config.uid=63228
+    _sf_async_config.domain="hindustantimes.com";
+    _sf_async_config.useCanonical=true;
+    _sf_async_config.sections='ht-indepth';
+    //CHANGE THIS
+    _sf_async_config.authors='Harry Stevens';
+    //CHANGE THIS
+    /** CONFIGURATION END **/
+    (function() {
+      function loadChartbeat() {
+        window._sf_endpt=(new Date()).getTime();
+        var e=document.createElement('script');
+        e.setAttribute('language', 'javascript');
+        e.setAttribute('type', 'text/javascript');
+        e.setAttribute('src', '//static.chartbeat.com/js/chartbeat.js');
+        document.body.appendChild(e);
+      }
+
+      var oldonload=window.onload;
+      window.onload=( typeof window.onload != 'function') ? loadChartbeat : function() {
+        oldonload();
+        loadChartbeat();
+      };
+    })();
+    </script>
+  </body>
+</html>
