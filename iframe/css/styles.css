@@ -52,7 +52,7 @@ html, body {
   width: 100%;
   height: 100vh;
   z-index: 5;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.3);
   text-align: center;
   /*padding-top: 5%;*/
 }
@@ -97,9 +97,10 @@ html, body {
   margin: 0 auto;
   width: 32%;
   font-size: .8em;
-  color: #888;
+  color: #000;
   font-style: italic;
   margin-bottom: 10px;
+  text-shadow: -1px -1px 1px #ffffff, -1px 0px 1px #ffffff, -1px 1px 1px #ffffff, 0px -1px 1px #ffffff, 0px 1px 1px #ffffff, 1px -1px 1px #ffffff, 1px 0px 1px #ffffff, 1px 1px 1px #ffffff;
 }
 
 #disclaimer {
@@ -107,6 +108,9 @@ html, body {
   margin: 0 auto;
   margin-top: 120px;
   font-size: .7em;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  text-shadow: -1px -1px 1px #ffffff, -1px 0px 1px #ffffff, -1px 1px 1px #ffffff, 0px -1px 1px #ffffff, 0px 1px 1px #ffffff, 1px -1px 1px #ffffff, 1px 0px 1px #ffffff, 1px 1px 1px #ffffff;
 }
 
 
@@ -141,8 +145,7 @@ html, body {
     width: 50px;
   }
   #disclaimer {
-    width: 92%;
-    margin-left:4%;
+    margin-left: 1.5%;
     bottom: 80px;
     position: absolute;
   }
